@@ -1,0 +1,34 @@
+module tb_calculation;
+    reg [143:0] A;reg [143:0] B;wire [287:0] C;
+    calculation uut (.A(A),.B(B),.C(C));
+    task print_matrix(input [287:0] matrix);
+    begin
+        $display("Matrix Result:");
+        $display("%0d %0d %0d", matrix[287:256], matrix[255:224], matrix[223:192]);
+        $display("%0d %0d %0d", matrix[191:160], matrix[159:128], matrix[127:96]);
+        $display("%0d %0d %0d", matrix[95:64], matrix[63:32], matrix[31:0]);
+        $display("");
+     end
+    endtask
+    initial begin
+        A = 144'd0;
+        B = 144'd0;
+        #10;
+        A = {16'd1, 16'd2, 16'd3, 16'd4, 16'd5, 16'd6, 16'd7, 16'd8, 16'd9}; // Matrix A: [1 2 3; 4 5 6; 7 8 9]
+        B = {16'd9, 16'd8, 16'd7, 16'd6, 16'd5, 16'd4, 16'd3, 16'd2, 16'd1}; // Matrix B: [9 8 7; 6 5 4; 3 2 1]
+        #20;
+        print_matrix(C); 
+        #10;
+        A = {16'd1, 16'd0, 16'd0, 16'd0, 16'd1, 16'd0, 16'd0, 16'd0, 16'd1}; 
+        B = {16'd9, 16'd8, 16'd7, 16'd6, 16'd5, 16'd4, 16'd3, 16'd2, 16'd1}; 
+        #20;
+        print_matrix(C); 
+        #10;
+        A = {16'd0, 16'd0, 16'd0, 16'd0, 16'd0, 16'd0, 16'd0, 16'd0, 16'd0};
+        B = {16'd9, 16'd8, 16'd7, 16'd6, 16'd5, 16'd4, 16'd3, 16'd2, 16'd1}; 
+        #20;
+        print_matrix(C);
+        #10;
+        $stop;
+    end
+endmodule
